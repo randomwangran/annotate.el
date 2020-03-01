@@ -92,7 +92,9 @@ This package is released under the MIT license.
   Bugfix release for buffers without a file name.
   
   
-  ** my study
+
+
+** my study
   课程0，理解
 
 ```
@@ -186,3 +188,10 @@ This package is released under the MIT license.
       (move-beginning-of-line nil)
       (- eol (point)))))
  ```
+*** reply by "在核潜艇里工作" de emacs' user?
+
+- interactive 是交互的意思，在函数的body第一句话（不知道在别的什么地方加会怎样）加，就可以在eshell中调用，"r"是个控制符，不能换成别的，类似地还有"n,s"分别表示从屏幕读取两个参数，读取一个数字，读取一个字符串。
+- let和let的区别在于(let(这里面定义的临时变量，可以在这里面进行操作))
+- 4个变量，前两个是控制选中区域的两个位置，后面两个不知道是ha
+- 如果把目光聚焦在一个字上。 那么有色标记的意思是什么？这个是个人理解吗？
+- overlay-put,make-overlay 不是很清楚这两个东西的用法，您可以解释一下
