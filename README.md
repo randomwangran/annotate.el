@@ -90,3 +90,99 @@ This package is released under the MIT license.
 
 - **2016-10-06 V0.4.7 Bastian Bechtold**  
   Bugfix release for buffers without a file name.
+  
+  
+  ** my study
+  课程0，理解
+
+```
+(defun annotate-create-annotation (start end &optional arg)
+  "Create a new annotation for selected region."
+  (interactive "r")
+  (let* ((overlay-highlight (make-overlay start end))
+         (eol (save-excursion (move-end-of-line nil) (point)))
+         (overlay-eol (make-overlay eol eol))
+         (prefix (make-string (- annotate-annotation-column (annotate-line-length)) ? )))
+    (overlay-put overlay-highlight 'face annotate-highlight-face)
+    (overlay-put overlay-eol 'after-string
+                 (concat prefix (propertize
+                                 (read-from-minibuffer "Annotation: ")
+                                 'face annotate-annotation-face)))))
+```
+1. 楼主明白 interactive "r" 的含义么？可以用别的字符么？
+2. let* 在干什么？ 它和 let 的区别是？假设楼主知道了 let 的意义。
+
+--- 
+假设楼主知道了 let 的用法，那么：
+
+1. 为什么要定义4个变量？
+或者说，我们在“可视化有色标记文本的时候”，我们对 emacs 下了什么样的命令。
+
+---
+
+这就带出了，Emacs 如何从内存读取 机器码，然后将识别出的文字，呈现在显示器上。
+
+如果把目光聚焦在一个字上。 那么有色标记的意思是什么？
+
+--- 
+偷 @casouri 的代码 
+
+```
+(defun highlight-region (beg end)
+  (interactive "r")
+  (overlay-put (make-overlay beg end)
+               'face 'highlight))
+```
+
+请问 下面两个关键词在 Emacs 中代表什么？
+
+- face
+- highlight
+
+```elisp
+(defgroup annotate nil
+  "Annotate files without changing them."
+  :version 0.1
+  :group 'text)
+
+(defcustom annotate-file "~/.file-annotations"
+  "File where annotations are stored."
+  :type 'file
+  :group 'annotate)
+
+(defcustom annotate-highlight-face 'highlight
+  "Face for annotations."
+  :type 'face
+  :group 'annotate)
+
+(defcustom annotate-annotation-face 'highlight
+  "Face for annotations."
+  :type 'face
+  :group 'annotate)
+
+(defcustom annotate-annotation-column 90
+  "Where annotations appear."
+  :type 'number
+  :group 'annotate)
+
+(defun annotate-create-annotation (start end &optional arg)
+  "Create a new annotation for selected region."
+  (interactive "r")
+  (let* ((overlay-highlight (make-overlay start end))
+         (eol (save-excursion (move-end-of-line nil) (point)))
+         (overlay-eol (make-overlay eol eol))
+         (prefix (make-string (- annotate-annotation-column (annotate-line-length)) ? )))
+    (overlay-put overlay-highlight 'face annotate-highlight-face)
+    (overlay-put overlay-eol 'after-string
+                 (concat prefix (propertize
+                                 (read-from-minibuffer "Annotation: ")
+                                 'face annotate-annotation-face)))))
+
+(defun annotate-line-length ()
+  "The length of the line from beginning to end."
+  (save-excursion
+    (move-end-of-line nil)
+    (let ((eol (point)))
+      (move-beginning-of-line nil)
+      (- eol (point)))))
+ ```
